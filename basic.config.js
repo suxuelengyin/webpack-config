@@ -5,13 +5,13 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({        //html 模板加载功能，它自动引入打包后的js,css
             title: "基础测试",
-            filename:'index.html',  //打包后的html文件名
+            filename: 'index.html',  //打包后的html文件名
             template: "index.html", //指定模板后，title等属性可能不起作用。
             inject: true, //将脚本放在body最后，可以放在head
             favicon: "", //网站图标的路径，相对路径
             meta: { //插入meta标签。
                 viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'
-            }, 
+            },
             base: false, //注入base 标签，为页面上的所有链接规定默认地址或默认目标。
             minify: false, //生产环境下自动为true
         }),
@@ -27,9 +27,15 @@ module.exports = {
         })
     ],
     // 各种 loader
-    module:{
-        rules:[
-            
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            }
         ]
     }
 };

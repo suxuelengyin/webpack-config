@@ -1,1 +1,2 @@
-var x = 2
+import './index.css'
+document.getElementById('test').className="su"

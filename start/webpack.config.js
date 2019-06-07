@@ -12,7 +12,7 @@ const config = merge({
     },
     plugins: [
         new HtmlWebpackPlugin({
-            filename: "in.html"
+            filename: "index.html"
         })
     ]
 }, basic)
