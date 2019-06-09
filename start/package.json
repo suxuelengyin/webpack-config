@@ -6,5 +6,6 @@
         "build": "webpack"
     },
     "author": "",
-    "license": "ISC"
+    "license": "ISC",
+    "devDependencies": {}
 }

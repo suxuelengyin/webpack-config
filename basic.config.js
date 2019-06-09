@@ -1,7 +1,28 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+    // 各种 loader
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // you can specify a publicPath here
+                            // by default it uses publicPath in webpackOptions.output
+                            publicPath: '',
+                            hmr: process.env.NODE_ENV === 'development',
+                        },
+                    },
+                    'css-loader'
+                ]
+            }
+        ]
+    },
     plugins: [
         new HtmlWebpackPlugin({        //html 模板加载功能，它自动引入打包后的js,css
             title: "基础测试",
@@ -24,18 +45,12 @@ module.exports = {
             cleanStaleWebpackAssets: true,
             // 不允许删除当前的webpack资源，默认true
             protectWebpackAssets: true
+        }),
+        new MiniCssExtractPlugin({
+            // 和 webpackOptions.output 配置相同
+            // both options are optional
+            filename: 'index.css',
+            chunkFilename: '[id].css',
         })
     ],
-    // 各种 loader
-    module: {
-        rules: [
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
-                ]
-            }
-        ]
-    }
 };
