@@ -1,0 +1,20 @@
+
+'use strict';
+
+const Webpack = require('webpack');
+const WebpackDevServer = require('webpack-dev-server');
+const config = require('../webpack.config');
+
+const compiler = Webpack(config);
+const devServerOptions = Object.assign({}, config.devServer, {
+    open: false,
+    clientLogLevel: "none",
+    historyApiFallback: true,
+    hot: true,
+    stats: "errors-only"
+});
+const server = new WebpackDevServer(compiler, devServerOptions);
+
+server.listen(8080, '127.0.0.1', () => {
+    console.log('Starting server on http://localhost:8080');
+});

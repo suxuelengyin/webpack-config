@@ -2,6 +2,9 @@ const path = require('path')
 const basic = require('../basic.config.js')
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { fileDisplay } = require('../utils/webpack.utils.js')
+
+// console.log(fileDisplay(__dirname))
 const config = merge({
     entry: './src/index.js',
     mode: "production",//构建环境
