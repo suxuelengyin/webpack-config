@@ -22,13 +22,13 @@ const createCompiler = (compiler) => {
     // 是不是第一次构建，文件变更构建就不会执行
     let isFirst = true
     compiler.hooks.compile.tap('compile', () => {
-        if (isFirst) {
-            isFirst = false
+        if (isFirst) {       
             console.log(chalk.cyan('starting the development server...\n'));
         }
     })
     compiler.hooks.done.tap('done', () => {
         if (isFirst) {
+             isFirst = false
             console.log(chalk.cyan('localhost: http://localhost:8080'));
             // openBrowser("http://localhost:8080");
         }
