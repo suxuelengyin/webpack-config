@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            width: 100vw
+        }
+
+        button {
+            background-color: #1890ff;
+            color: white;
+            width: 150px;
+            height: 50px;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+        }
+        .loader{
+            width:0;
+            height: 0;
+            border-width:100px;
+            border-style: solid;
+            border-color: red yellow green blue;
+        }
+        .loader::after{
+            content: "",
+
+        }
+    </style>
+    <link rel="stylesheet" href="distpicker.css">
+</head>
+
+<body>
+    <div>
+        <button onclick="testThree()">异步三选择</button>
+        <button onclick="testTwo()">异步双选择</button>
+        <button onclick="testOne()">单步选择</button>
+    </div>
+    <div class=".loader">
+
+    </div>
+    <script>
+        window._fetch = function (url, params) {
+            return fetch("https://dev.zijinshe.com" + url, params)
+        }
+        function testThree() {
+            new DistPicker({
+                nameKey: "name", //返回对象指定的键名
+                title:"三步选择",
+                dataEventsList: [
+                    () => {
+                        if (window.provinces) {
+                            return window.provinces
+                        } else {
+                            return _fetch('/cms/weixin/zjs/getProvinces')
+                                .then(res => res.json())
+                                .then(data => {
+                                    window.provinces = data
+                                    return data
+                                })
+                        }
+                    },
+                    (val, firstData) => {
+                        if (firstData.then) {
+                            return firstData.then(data => {
+                                const code = data.filter(item => item.name === val[0])[0].regionCode
+                                return _fetch(`/cms/weixin/zjs/getCity?cityNum=${code}`)
+                                    .then(res => res.json())
+                                    .then(data => data)
+                            })
+                        } else {
+                            const code = firstData.filter(item => item.name === val[0])[0].regionCode
+                            return _fetch(`/cms/weixin/zjs/getCity?cityNum=${code}`)
+                                .then(res => res.json())
+                                .then(data => data)
+                        }
+                    },
+                    (val, secondData) => {
+                        return secondData.then(data => {
+                            const code = data.filter(item => item.name === val[1])[0].regionCode
+                            return _fetch(`/cms/weixin/zjs/getArea?areaNum=${code}`)
+                                .then(res => res.json())
+                                .then(data => data)
+                        })
+                    },
+                    (val, thirdData) => {
+                        thirdData.then(data => {
+                            console.log(data)
+                        })
+                        console.log(val)
+                    }
+                ]
+            })
+        }
+        function testTwo() {
+            new DistPicker({
+                nameKey: "name", //返回对象指定的键名
+                dataEventsList: [
+                    () => {
+                        if (window.provinces) {
+                            return window.provinces
+                        } else {
+                            return _fetch('/cms/weixin/zjs/getProvinces')
+                                .then(res => res.json())
+                                .then(data => {
+                                    window.provinces = data
+                                    return data
+                                })
+                        }
+                    },
+                    (val, firstData) => {
+                        if (firstData.then) {
+                            return firstData.then(data => {
+                                const code = data.filter(item => item.name === val[0])[0].regionCode
+                                return _fetch(`/cms/weixin/zjs/getCity?cityNum=${code}`)
+                                    .then(res => res.json())
+                                    .then(data => data)
+                            })
+                        } else {
+                            const code = firstData.filter(item => item.name === val[0])[0].regionCode
+                            return _fetch(`/cms/weixin/zjs/getCity?cityNum=${code}`)
+                                .then(res => res.json())
+                                .then(data => data)
+                        }
+                    },
+                    (val, thirdData) => {
+                        thirdData.then(data => {
+                            console.log(data)
+                        })
+                        console.log(val)
+                    }
+                ]
+            })
+        }
+        function testOne() {
+            new DistPicker({
+                nameKey: "name", //返回对象指定的键名
+                dataEventsList: [
+                    () => {
+                        if (window.provinces) {
+                            return window.provinces
+                        } else {
+                            return _fetch('/cms/weixin/zjs/getProvinces')
+                                .then(res => res.json())
+                                .then(data => {
+                                    window.provinces = data
+                                    return data
+                                })
+                        }
+                    },
+                    (val, data) => {
+                        console.log(data)
+                        console.log(val)
+                    }
+                ]
+            })
+        }
+    </script>
+    <script src="./index.js"></script>
+</body>
+
+</html>

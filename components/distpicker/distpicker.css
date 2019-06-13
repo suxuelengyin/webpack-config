@@ -1,0 +1,91 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#su-picker {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 9999;
+    height: 0px;
+    background-color: #ffffff;
+    transition: height 0.5s;
+}
+
+#su-distPicker {}
+
+.su-banner {
+    position: relative;
+    text-align: center;
+    color: #576B95;
+    background-color: #ffffff;
+    padding: 10px 8px;
+    border-bottom: 1px #ededed solid;
+}
+
+.su-list {
+    overflow-y: auto;
+    height: 205px;
+}
+
+#su-pickerWrap {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+}
+
+.su-pickerWrapIn {
+    animation: fadeIn ease .3s forwards;
+}
+
+.su-pickerWrapOut {
+    animation: fadeOut ease .3s forwards;
+}
+
+#su-pre {
+    position: absolute;
+    left: 8px;
+}
+
+#su-cancel {
+    position: absolute;
+    right: 8px;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.su-list ul {}
+
+.su-list li {
+    text-align: center;
+    height: 50px;
+    width: 80vw;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px #ededed solid;
+}
