@@ -11,6 +11,7 @@ const launchEditorEndpoint = require('./launchEditorEndpoint');
 
 module.exports = function createLaunchEditorMiddleware() {
   return function launchEditorMiddleware(req, res, next) {
+      console.log(req)
     if (req.url.startsWith(launchEditorEndpoint)) {
       const lineNumber = parseInt(req.query.lineNumber, 10) || 1;
       const colNumber = parseInt(req.query.colNumber, 10) || 1;
