@@ -6,6 +6,7 @@ const WebpackDevServer = require('webpack-dev-server');
 const makeConfig = require('../webpack.config');
 const openBrowser = require('../utils/openBrowser')
 const { clearConsole } = require('../utils/webpack.utils')
+const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const merge = require('webpack-merge');
 const chalk = require('chalk')
 
@@ -27,11 +28,19 @@ const createCompiler = (compiler) => {
             console.log(chalk.cyan('starting the development server...\n'));
         }
     })
-    compiler.hooks.done.tap('done', () => {
+    compiler.hooks.done.tap('done', (stats) => {
         if (isFirst) {
             isFirst = false
             console.log(chalk.cyan('localhost: http://localhost:8080'));
             // openBrowser("http://localhost:8080");
+        }
+        const statsMessages = formatWebpackMessages(stats.toJson({
+            all: false,
+            warnings: true,
+            errors: true,
+        }))
+        if (statsMessages.errors.length > 0) {
+            console.log(statsMessages.errors[0])
         }
 
     })
@@ -49,14 +58,12 @@ const devServerOptions = Object.assign({}, config.devServer, {
     clientLogLevel: "none",
     historyApiFallback: true,
     hot: true,
-    stats: "errors-only",
-    // quiet: true,
+    quiet: true,
     inline: true,
     compress: true,
     overlay: false,
 });
 const server = new WebpackDevServer(createCompiler(compiler), devServerOptions);
-
 server.listen(8080, '127.0.0.1', (err) => {
     if (err) {
         return console.log(err);
@@ -69,4 +76,4 @@ server.listen(8080, '127.0.0.1', (err) => {
         );
         console.log();
     }
-});
+})

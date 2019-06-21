@@ -1,4 +1,4 @@
-import './index.css'
+import './index.scss'
 import DistPicker from '@/components/distpicker'
 import testjpg from './test.jpg'
 document.getElementById('test').addEventListener('click', (e) => {
